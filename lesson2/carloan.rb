@@ -1,4 +1,5 @@
 # Car Loan Calculator
+require "pry"
 
 def prompt(message)
   puts("=> #{message}")
