@@ -1,0 +1,16 @@
+Describe the difference between ! and ? in Ruby. And explain what would happen in the following scenarios:
+- The ! preceding a boolean or = sign means to do the opposite.  !true means false.  != means not equal to.
+- The ! following a method means the action is modifying/mutating the object.  
+- The ? is used in ternary operations
+  ex: condition ? (execute if true) : (execute if false)
+
+
+What is != and where should you use it?
+-- != tests nonequivalency and is conditionals and loops.
+
+Put ! before something, like !user_name
+--
+put ! after something, like words.uniq!
+put ? before something
+put ? after something
+put !! before something, like !!user_name
