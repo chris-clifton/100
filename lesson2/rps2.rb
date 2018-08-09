@@ -30,8 +30,11 @@ end
 user_choice = ''
 
 VALID_CHOICES = %w(rock paper scissors spock lizard)
+ALL_CHOICES = {rock: 'r', paper: 'p', scissors: 's', spock: 'k', lizard: 'l'}
 
 loop do
+=begin
+TRYING TO VALIDATE WITH HASH AND DON'T WANT TO ERASE THIS CODE YET
   loop do
     prompt("Choose one: #{VALID_CHOICES.join(', ')}")
     user_choice = gets.chomp
@@ -41,6 +44,17 @@ loop do
       prompt("That's not a valid choice!")
     end
   end
+=end
+
+    loop do
+      prompt("Choose one: #{VALID_CHOICES.join(', ')}")
+      user_choice = gets.chomp
+      if ALL_CHOICES.has_value?(user_choice)
+        break
+      else
+        prompt("That's not a valid choice!")
+      end
+    end
 
   computer_choice = VALID_CHOICES.sample
   prompt("You chose: #{user_choice}; Computer chose: #{computer_choice}.")
