@@ -32,6 +32,17 @@ def display_board(brd)
 end
 # rubocop: enable Metrics/AbcSize
 
+def joinor(array, delimiter=', ', word='or')
+  case array.size
+  when 0 then ''
+  when 1 then array.first
+  when 2 then array.join("#{word}")
+  else
+    array[-1] = "#{word} #{array.last}"
+    array.join(delimiter)
+  end
+end
+
 def initialize_board
   new_board = {}
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
@@ -78,9 +89,22 @@ def detect_winner(brd)
   nil
 end
 
+def play_again?
+  prompt "Play again? (y or n)"
+  answer = gets.chomp
+  if answer.downcase.start_with?('y')
+    return false
+  elsif answer.downcase.start_with?('n')
+    return true
+  end
+  play_again?
+end
+
+player_score = 0
+computer_score = 0
+
 loop do
   board = initialize_board
-
   loop do
     display_board(board)
 
@@ -99,9 +123,18 @@ loop do
     prompt "It's a tie!"
   end
 
-  prompt "Play again? (y or n)"
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+  if detect_winner(board) == 'Player'
+    player_score += 1
+  elsif detect_winner(board) == 'Computer'
+    computer_score += 1
+  end
+
+  prompt "Player wins: #{player_score}"
+  prompt "Computer wins: #{computer_score}"
+
+  break if player_score >= 5 || computer_score >= 5
+
+  break if play_again?
 end
 
 prompt "Thanks for playing Tic Tac Toe!"
