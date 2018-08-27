@@ -56,13 +56,11 @@ def choose_starting_player
   end
 end
 
-# Rubocop hates the redundant use of "return" here but, right now, it helps 
-# me keep a mental model of my methods aso I've just ignored the cops.
 def alternate_player(current_player)
   if current_player == 'player'
-    return 'computer'
+    'computer'
   elsif current_player == 'computer'
-    return 'player'
+    'player'
   end
 end
 
