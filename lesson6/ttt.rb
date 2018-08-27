@@ -56,6 +56,8 @@ def choose_starting_player
   end
 end
 
+# Rubocop hates the redundant use of "return" here but, right now, it helps 
+# me keep a mental model of my methods aso I've just ignored the cops.
 def alternate_player(current_player)
   if current_player == 'player'
     return 'computer'
@@ -84,7 +86,7 @@ end
 
 def find_at_risk_square(line, board, marker)
   if board.values_at(*line).count(marker) == 2
-    board.select {|key, value| line.include?(key) && value == INITIAL_MARKER}.keys.first
+    board.select { |key, value| line.include?(key) && value == INITIAL_MARKER }.keys.first
   else
     nil
   end
@@ -100,8 +102,8 @@ end
 
 def best_move(brd, marker)
   WINNING_LINES.each do |line|
-   if brd.values_at(*line).count(marker) == 2 &&
-      brd.values_at(*line).count(INITIAL_MARKER) == 1
+    if brd.values_at(*line).count(marker) == 2 &&
+       brd.values_at(*line).count(INITIAL_MARKER) == 1
       then line.select do |square|
         return square if empty_squares(brd).include?(square)
       end
@@ -137,7 +139,6 @@ def place_piece!(brd, current_player)
     computer_places_piece!(brd)
   end
 end
-
 
 def board_full?(brd)
   empty_squares(brd).empty?
@@ -178,40 +179,43 @@ loop do # Main Program loop
   if WHO_GOES_FIRST == 'choose'
     current_player = nil
     loop do
-     prompt 'Please choose a starting player:'
-     prompt 'player or computer?'
-     answer = gets.chomp.downcase
-     if answer == 'player'
-       current_player = 'player'
-       break
-     elsif answer == 'computer'
-       current_player = 'computer'
-       break
-     else
-       prompt 'Sorry, that is not a valid option.'
-     end
-   end
- end
-  
- loop do
+      prompt 'Welcome to Tic Tac Toe!'
+      prompt 'First to 5 wins the match!'
+      sleep 3
+      board = initialize_board
+      display_board(board)
+      prompt 'Please choose a starting player:'
+      prompt 'player or computer?'
+      answer = gets.chomp.downcase
+      if answer == 'player'
+        current_player = 'player'
+        break
+      elsif answer == 'computer'
+        current_player = 'computer'
+        break
+      else
+        prompt 'Sorry, that is not a valid option.'
+      end
+    end
+  end
+
+  loop do
     board = initialize_board
     display_board(board)
 
-  #pulled if WHO GOES FIRST From here to test getting outside main game loop
-      
     loop do
       display_board(board)
       place_piece!(board, current_player)
       current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
-   
-    display_board(board) 
+
+    display_board(board)
 
     if someone_won?(board)
-      prompt "#{detect_winner(board)} won!"
+      prompt "---#{detect_winner(board)} won!---"
     else
-      prompt "It's a tie!"
+      prompt "---It's a tie!---"
     end
 
     if detect_winner(board) == 'Player'
@@ -230,6 +234,7 @@ loop do # Main Program loop
 
     break if play_again?
   end
+  break
 end
 
 prompt "Thanks for playing Tic Tac Toe!"
