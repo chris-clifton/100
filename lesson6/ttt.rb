@@ -1,7 +1,5 @@
 # Tic Tac Toe with Bonus Features
 
-require 'pry'
-
 WINNING_MATCH_SCORE = 5
 WHO_GOES_FIRST = 'choose' # options are 'player' 'computer' and 'choose'
 INITIAL_MARKER = ' '
