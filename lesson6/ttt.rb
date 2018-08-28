@@ -1,6 +1,9 @@
 # Tic Tac Toe with Bonus Features
 
-WHO_GOES_FIRST = 'choose' # other options are 'player' and 'computer'
+require 'pry'
+
+WINNING_SCORE = 5
+WHO_GOES_FIRST = 'choose' # options are 'player' 'computer' and 'choose'
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
@@ -36,23 +39,24 @@ def joinor(array, delimiter=', ', word='or')
   case array.size
   when 0 then ''
   when 1 then array.first
-  when 2 then array.join("#{word}")
+  when 2 then array.join(word.to_s)
   else
     array[-1] = "#{word} #{array.last}"
     array.join(delimiter)
   end
 end
 
-def choose_starting_player
-  prompt 'Please choose starting player:'
-  prompt 'player or computer?'
-  answer = gets.chomp
-  if answer == 'player'
-    player
-  elsif answer == 'computer'
-    computer
+def choose_first_player
+  if WHO_GOES_FIRST == 'choose'
+    loop do
+      prompt 'Please choose who will go first: player or computer'
+      answer = gets.chomp.downcase
+      return 'player' if answer == 'player'
+      return 'computer' if answer == 'computer'
+      prompt 'That is not a valid choice.'
+    end
   else
-    prompt 'Sorry, that is not a valid option.'
+    WHO_GOES_FIRST
   end
 end
 
@@ -85,8 +89,6 @@ end
 def find_at_risk_square(line, board, marker)
   if board.values_at(*line).count(marker) == 2
     board.select { |key, value| line.include?(key) && value == INITIAL_MARKER }.keys.first
-  else
-    nil
   end
 end
 
@@ -122,7 +124,7 @@ end
 def player_places_piece!(brd)
   square = ' '
   loop do
-    prompt "Choose a square (#{empty_squares(brd).join(', ')}):"
+    prompt "Choose a square (#{joinor(empty_squares(brd))})"
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice."
@@ -158,44 +160,27 @@ def detect_winner(brd)
 end
 
 def play_again?
-  prompt "Play again? (y or n)"
-  answer = gets.chomp
-  if answer.downcase.start_with?('y')
-    return false
-  elsif answer.downcase.start_with?('n')
-    return true
-  end
-  play_again?
-end
-
-player_score = 0
-computer_score = 0
-draws = 0
-
-loop do # Main Program loop
-
-  if WHO_GOES_FIRST == 'choose'
-    current_player = nil
-    loop do
-      prompt 'Welcome to Tic Tac Toe!'
-      prompt 'First to 5 wins the match!'
-      sleep 3
-      board = initialize_board
-      display_board(board)
-      prompt 'Please choose a starting player:'
-      prompt 'player or computer?'
-      answer = gets.chomp.downcase
-      if answer == 'player'
-        current_player = 'player'
-        break
-      elsif answer == 'computer'
-        current_player = 'computer'
-        break
-      else
-        prompt 'Sorry, that is not a valid option.'
-      end
+  loop do
+    prompt "Play again? (y or n)"
+    answer = gets.chomp
+    if answer.downcase == 'y'
+      return false
+    elsif answer.downcase == 'n'
+      return true
+    else prompt "Please choose y or n."
     end
   end
+end
+
+loop do # Main Program loop
+  player_score = 0
+  computer_score = 0
+  draws = 0
+  board = initialize_board
+  display_board(board)
+  prompt "Welcome to Tic Tac Toe!"
+  prompt "First to five wins the match!"
+  current_player = choose_first_player
 
   loop do
     board = initialize_board
@@ -228,8 +213,7 @@ loop do # Main Program loop
     prompt "Computer wins: #{computer_score}"
     prompt "Draws: #{draws}"
 
-    break if player_score >= 5 || computer_score >= 5
-
+    break if player_score >= WINNING_SCORE || computer_score >= WINNING_SCORE
     break if play_again?
   end
   break
