@@ -17,7 +17,7 @@ def invalid_choice
   prompt 'Sorry, that is not a valid choice.'
 end
 
-# rubocop: disable Metrics/AbcSize
+# rubocop: disable Metrics/AbcSize, Metrics/MethodLength
 def display_board(brd, game_score)
   system 'clear'
   puts "Player Marker: X || Computer Marker: O"
@@ -38,7 +38,7 @@ def display_board(brd, game_score)
   puts "     |     |     "
   puts ""
 end
-# rubocop: enable Metrics/AbcSize
+# rubocop: enable Metrics/AbcSize, Metrics/MethodLength
 
 def joinor(array, delimiter=', ', word='or')
   case array.size
@@ -93,7 +93,9 @@ end
 
 def find_at_risk_square(line, board, marker)
   if board.values_at(*line).count(marker) == 2
+    # rubocop: disable Metrics/LineLength
     board.select { |key, value| line.include?(key) && value == INITIAL_MARKER }.keys.first
+    # rubocop: enable Metrics/LineLength
   end
 end
 
