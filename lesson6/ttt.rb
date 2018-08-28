@@ -2,7 +2,7 @@
 
 require 'pry'
 
-WINNING_SCORE = 5
+WINNING_MATCH_SCORE = 5
 WHO_GOES_FIRST = 'choose' # options are 'player' 'computer' and 'choose'
 INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
@@ -15,10 +15,17 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
+def invalid_choice
+  prompt 'Sorry, that is not a valid choice.'
+end
+
 # rubocop: disable Metrics/AbcSize
-def display_board(brd)
+def display_board(brd, game_score)
   system 'clear'
-  puts "Player = X || Computer = O"
+  puts "Player Marker: X || Computer Marker: O"
+  puts "Player Wins: #{game_score[:player_score]}"
+  puts "Computer Wins: #{game_score[:computer_score]}"
+  puts "Draws: #{game_score[:draws]}"
   puts ""
   puts "     |     |     "
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}  "
@@ -53,7 +60,7 @@ def choose_first_player
       answer = gets.chomp.downcase
       return 'player' if answer == 'player'
       return 'computer' if answer == 'computer'
-      prompt 'That is not a valid choice.'
+      invalid_choice
     end
   else
     WHO_GOES_FIRST
@@ -127,7 +134,7 @@ def player_places_piece!(brd)
     prompt "Choose a square (#{joinor(empty_squares(brd))})"
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
-    prompt "Sorry, that's not a valid choice."
+    invalid_choice
   end
   brd[square] = PLAYER_MARKER
 end
@@ -167,33 +174,58 @@ def play_again?
       return false
     elsif answer.downcase == 'n'
       return true
-    else prompt "Please choose y or n."
+    else invalid_choice
     end
   end
 end
 
+def calculate_score(board, game_score)
+  if detect_winner(board) == 'Player'
+    game_score[:player_score] += 1
+  elsif detect_winner(board) == 'Computer'
+    game_score[:computer_score] += 1
+  else
+    game_score[:draws] += 1
+  end
+end
+
+def calculate_winner(game_score)
+  if game_score[:player_score] >= WINNING_MATCH_SCORE
+    'Player'
+  elsif game_score[:computer_score] >= WINNING_MATCH_SCORE
+    'Computer'
+  elsif game_score[:draws] >= WINNING_MATCH_SCORE
+    'Nobody'
+  else
+    false
+  end
+end
+
+def display_winner(game_score)
+  p "#{calculate_winner(game_score)} wins the match!"
+end
+
 loop do # Main Program loop
-  player_score = 0
-  computer_score = 0
-  draws = 0
+  game_score = { player_score: 0, computer_score: 0, draws: 0 }
   board = initialize_board
-  display_board(board)
+  display_board(board, game_score)
   prompt "Welcome to Tic Tac Toe!"
-  prompt "First to five wins the match!"
+  prompt "Win five rounds to win the match!"
   current_player = choose_first_player
 
   loop do
     board = initialize_board
-    display_board(board)
+    display_board(board, game_score)
 
     loop do
-      display_board(board)
+      display_board(board, game_score)
       place_piece!(board, current_player)
       current_player = alternate_player(current_player)
       break if someone_won?(board) || board_full?(board)
     end
 
-    display_board(board)
+    display_board(board, game_score)
+    calculate_score(board, game_score)
 
     if someone_won?(board)
       prompt "---#{detect_winner(board)} won!---"
@@ -201,21 +233,12 @@ loop do # Main Program loop
       prompt "---It's a tie!---"
     end
 
-    if detect_winner(board) == 'Player'
-      player_score += 1
-    elsif detect_winner(board) == 'Computer'
-      computer_score += 1
-    else
-      draws += 1
-    end
-
-    prompt "Player wins: #{player_score}"
-    prompt "Computer wins: #{computer_score}"
-    prompt "Draws: #{draws}"
-
-    break if player_score >= WINNING_SCORE || computer_score >= WINNING_SCORE
+    break if calculate_winner(game_score)
     break if play_again?
   end
+
+  display_winner(game_score)
+
   break
 end
 
