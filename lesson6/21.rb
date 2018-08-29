@@ -4,7 +4,11 @@ SUITS = ['hearts', 'diamonds', 'clubs', 'spades']
 VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
 
 def prompt(msg)
-  puts "=>#{msg}"
+  prompt "=>#{msg}"
+end
+
+def invalid_choice
+  prompt 'Sorry, that is not a valid choice.'
 end
 
 def initialize_deck
@@ -12,13 +16,17 @@ def initialize_deck
 end
 
 def cards_total(player_hand)
-  first_card = player_hand[0][1].to_i
-  second_card = player_hand[1][1].to_i
+  first_card = player_hand[0][1]
+  second_card = player_hand[1][1]
   total = first_card + second_card
 end
 
-def display_hand(player_hand)
+def display_player_hand(player_hand)
   p player_hand
+end
+
+def display_dealer_hand(dealer_cards)
+  prompt "#{dealer_cards.first} and HIDDEN CARD."
 end
 
 def bust?(player_hand)
@@ -39,15 +47,15 @@ loop do
     dealer_cards << deck.pop
   end
     
-# Add player cards
-puts "Add player cards"
+# Add player cards- not a necessary feature but helpful for building
+prompt "Add player cards"
 p cards_total(player_cards)
 p cards_total(dealer_cards)
 
 # Display player cards and one dealer card
-puts "Display player cards"
-display_hand(player_cards)
-display_hand(dealer_cards)
+prompt "Display cards"
+display_player_hand(player_cards)
+display_dealer_hand(dealer_cards)
 
 # Player turn loop
   # hit or stay?
@@ -61,7 +69,7 @@ display_hand(dealer_cards)
     elsif answer == 'stay'
       # break to dealer's turn
     else 
-      prompt 'Sorry, that is not a valid choice.'
+      invalid_choice
     end
   end
     
