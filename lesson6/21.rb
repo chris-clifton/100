@@ -4,7 +4,7 @@ SUITS = ['hearts', 'diamonds', 'clubs', 'spades']
 VALUES = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'jack', 'queen', 'king', 'ace']
 
 def prompt(msg)
-  puts "=>#{msg}"
+  prompt "=>#{msg}"
 end
 
 def invalid_choice
@@ -48,12 +48,12 @@ loop do
   end
     
 # Add player cards- not a necessary feature but helpful for building
-puts "Add player cards"
+prompt "Add player cards"
 p cards_total(player_cards)
 p cards_total(dealer_cards)
 
 # Display player cards and one dealer card
-puts "Display cards"
+prompt "Display cards"
 display_player_hand(player_cards)
 display_dealer_hand(dealer_cards)
 
