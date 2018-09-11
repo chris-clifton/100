@@ -1,0 +1,4 @@
+def triangle(num)
+
+end
+

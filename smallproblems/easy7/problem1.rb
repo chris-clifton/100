@@ -3,6 +3,6 @@ def interleave(array1, array2)
 end
 
 array1 = [1, 2, 3, 4, 5]
-array2 = [5, 4, 3, 2, 1]
+array2 = ['A', 'B', 'C']
 
 p interleave(array1, array2)
