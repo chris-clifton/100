@@ -1,9 +1,18 @@
+# input: string
+# output: array of strings
+# rules: returns ordered (short to long) list of all substrings, from beginning of original string
+# algorithm: loop starting at index 0, add to new array, increment counter, break when > string.size
+
+
 def substrings_at_start(string)
-  stringarray = []
-  0.upto(string.size - 1) do |index|
-    stringarray << string[0..index]
+  result = []
+  counter = 0 
+  loop do
+    result << string[0..counter]
+    counter += 1
+    break if counter >= string.size
   end
-  stringarray
+  result
 end
 
 def substrings(string)
@@ -16,3 +25,4 @@ def substrings(string)
 end
 
 p substrings('abcde')
+p substrings('clifton')

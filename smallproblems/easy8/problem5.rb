@@ -1,9 +1,17 @@
+# input: string
+# output: array of strings
+# rules: returns array of substrings in a string that are palindromic.
+
+
 def substrings_at_start(string)
-  stringarray = []
-  0.upto(string.size - 1) do |index|
-    stringarray << string[0..index]
+  result = []
+  counter = 0 
+  loop do
+    result << string[0..counter]
+    counter += 1
+    break if counter >= string.size
   end
-  stringarray
+  result
 end
 
 def substrings(string)
@@ -19,12 +27,12 @@ def palindromes(string)
   all_substrings = substrings(string)
   results = []
   all_substrings.each do |substring|
-    results << substring if palindrom?(substring)
+    results << substring if palindrome?(substring)
   end
   results
 end
 
-def palindrom?(string)
+def palindrome?(string)
   string == string.reverse && string.size > 1
 end
 
