@@ -10,16 +10,24 @@
 # step 4: join array, return string
 
 
-NUMBERS = %w( zero one two three four five six seven eight nine)
+NUMBERS = {
+  'zero' => '0', 
+  'one' => '1',
+  'two' => '2',
+  'three' => '3',
+  'four' => '4', 
+  'five' => '5',
+  'six' => '6',
+  'seven' => '7',
+  'eight' => '8',
+  'nine' => '9'
+}
 
-ALL OF THIS IS WRONG
-# def word_to_digit(string)
-#   string.split.select do |element|
-#     if NUMBERS.include?(element) 
-#       then NUMBERS.index(element)
-#     end
-#   end
-
+def word_to_digit(string)
+  NUMBERS.keys.each do |word|
+    string.gsub!(/\b#{word}\b/i, NUMBERS[word])
+  end
+  string
 end
 
 p word_to_digit('Please call me at five five five one two three four. Thanks.')
