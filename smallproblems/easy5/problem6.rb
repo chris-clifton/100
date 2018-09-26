@@ -8,8 +8,14 @@
 
 
 def word_sizes(words)
-  #do stuff
+  count_hash = Hash.new(0)
+  words.split.each do |word|
+    count_hash[word.size] += 1
+  end
+  p count_hash
 end
+
+
 
 word_sizes('Four score and seven.')  
 word_sizes('Hey diddle diddle, the cat and the fiddle!')
