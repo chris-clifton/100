@@ -1,0 +1,13 @@
+Madlibs Revisited
+Let's build another program using madlibs. A %{noun} made a program like this in the %{adjective} exercises. 
+This time, the requirements are %{adverb} %{adjective}.
+
+Make a %{adjective} program that reads in some %{adjective} text from a text file that you have created, and 
+then plugs in a selection of randomized nouns, verbs, adjectives, and adverbs into that text and %{verb} it. 
+You can build your lists of nouns, verbs, adjectives, and adverbs directly into your program, but the text 
+data should come from a file or other %{adjective} source. 
+
+Your program should %{verb} this text, and for each line, it should place random words of the appropriate types into the text, and %{adverb} print the result.
+The challenge of this program isn't about %{verb}ing your program; it's about choosing how to represent your %{noun}. 
+Choose the %{adjective} way to structure your data, and this problem becomes %{adverb} easier. This is why we don't 
+show you what the input data looks like; the %{noun} representation is %{adverb} your responsibility.
