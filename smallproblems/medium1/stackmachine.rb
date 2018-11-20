@@ -43,6 +43,7 @@ def minilang(command)
     when 'DIV'      then register /= stack.pop
     when 'MOD'      then register %= stack.pop
     when 'POP'      then register = stack.pop
+    when 'PEEK'     then puts stack.last
     when 'PRINT'    then puts register 
     end
   end
@@ -60,5 +61,4 @@ minilang('3 PUSH 4 PUSH 5 PUSH PRINT ADD PRINT POP PRINT ADD PRINT')
 minilang('3 PUSH PUSH 7 DIV MULT PRINT ')
 minilang('4 PUSH PUSH 7 MOD MULT PRINT ')
 minilang('-3 PUSH 5 SUB PRINT')
-minilang('6 PUSH')
-
+minilang('8 PUSH')
